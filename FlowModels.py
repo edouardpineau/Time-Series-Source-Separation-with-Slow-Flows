@@ -1,9 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-import torch.nn.utils.weight_norm as wn
-from torch.nn.modules.batchnorm import _BatchNorm
-from torch.autograd import Variable
 
 import math
 import numpy as np
@@ -318,7 +314,7 @@ class FlowLayer(LayerList):
 
 class FlowModel(LayerList, nn.Module):
     
-    """ **FlowModel** is the class to instantiate a the flow-based model.
+    """ **FlowModel**: example of flow-based model architecture class.
     
         Parameters
         ----------
@@ -336,9 +332,8 @@ class FlowModel(LayerList, nn.Module):
         for d in range(depth):
             shuffled_layer = Shuffle(D)
             layers.append(shuffled_layer)
-            layers.append(FlowLayer(D, NN()))
-            layers.append(shuffled_layer)
-            layers.append(FlowLayer(D, NN()))
+            layers.append(ActivationNormalization(D))
+            layers.append(AffineCoupling(D, NN(), volume_preservation=False))
         
-        layers.append(Linear(D))
+        layers.append(Prior(Variable(torch.zeros(1, D)), Variable(torch.zeros(1, D))))
         self.layers = nn.ModuleList(layers)
