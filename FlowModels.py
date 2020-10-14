@@ -333,7 +333,7 @@ class FlowModel(LayerList, nn.Module):
             shuffled_layer = Shuffle(D)
             layers.append(shuffled_layer)
             layers.append(ActivationNormalization(D))
-            layers.append(AffineCoupling(D, NN(), volume_preservation=False))
+            layers.append(AffineCoupling(D, NN()))
         
         layers.append(Prior(Variable(torch.zeros(1, D)), Variable(torch.zeros(1, D))))
         self.layers = nn.ModuleList(layers)
