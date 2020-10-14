@@ -7,6 +7,10 @@ The current repository offers an implementation of the paper [Time Series Source
 In this paper, we show that slow feature analysis (SFA), a common time series decomposition method, naturally fits into the flow-based models (FBM) framework, a type of invertible neural latent variable models. Building upon recent advances on blind source separation, we show that such a fit makes the time series decomposition
 identifiable.
 
+### Dependencies
+
+The current version of the code uses the module [SOBI.py](https://github.com/edouardpineau/Time-Series-ICA/SOBI.py) that I will package soon. 
+
 ### Citing
 
     @inproceedings{pineau2020time,
