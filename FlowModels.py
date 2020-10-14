@@ -11,15 +11,15 @@ import numpy as np
 
 class Layer(nn.Module):
     
-    """
-    La class **Layer** est une classe abstraite. Pour rappel une classe abstraite est utilisée lors de l'héritage pour forcer les classes filles à implémener certaines méthodes. Cela permet de forcer une interface. 
-
-    On veut que tous les modules utilisés dans la construction de nos modèles soit de la forme **Layer**, soit avec:
-
-    - Une méthode **to_embedding** pour passer de la donnée à une représentation latente
-    - Une méthode **from_embedding** pour implémenter la tâche à effectuer à partir de l'embedding
-
-    Cette classe définit un objet de base du modèle, de telle sorte que plusieurs de ces objets peuvent être combinés.
+    """ **Layer** abstract class. We remind that an abstract class is used as a blueprint for other classes. It allows you to create a set of methods that must be created within any child classes built from the abstract class.
+    We note that the standard way to used abstract classes in Python is to used ABC module. Not here.
+    
+        Methods
+        -------
+            * to_embedding: from data to latent representation
+            * from_embedding: from latent representation to data
+            
+    We note that in flow-based models, the **from_embedding** is the exact inverse of the **to_embedding**.
     """
     
     def __init__(self):
@@ -34,11 +34,16 @@ class Layer(nn.Module):
 
 class LayerList(Layer, nn.Module):
     
-    """ 
-    Chaque objet **Layer** est utilisé dans une classe plus **LayerList**. 
-    Cette liste a par définition au moins les mêmes méthodes que la classes abstraite **Layer**. 
-    On remarquera que les méthodes *to_embedding* et *from_embedding* ont des inputs et ouputs de mêmes format. 
-    Ainsi on pourra empiler les objets **Layers** comme les couches d'un réseau de neurones. 
+    """ **LayerList** is a list of layers from class **Layer**. We remark that the methods have same input and output format shape: we can chain layers. 
+        
+        Parameters
+        ----------
+            * list_of_layers: list of layers
+            
+        Methods
+        -------
+            * to_embedding: from data to latent representation through chain of layers
+            * from_embedding: from latent representation to data though chain of inverse layers
     """
     
     def __init__(self, list_of_layers=None):
@@ -60,7 +65,17 @@ class LayerList(Layer, nn.Module):
 
 
 class ActivationNormalization(Layer):
-    def __init__(self, D, moving_average=False, rho=0.99):
+    
+    """ **ActivationNormalization** implements Activation Normalization (ActNorm), a type of normalization used for flow-based generative models. It was introduced in the GLOW architecture. An ActNorm layer performs an affine transformation of the activations using a scale and bias parameter per channel, similar to batch normalization.
+    
+        Parameters
+        ----------
+            * D: dimension of the input
+            * rho: parameter of the moving average for the normalization parameters update
+            
+    """
+    
+    def __init__(self, D, rho=0.99):
         super(Layer, self).__init__()
         self.D = D
         
@@ -123,20 +138,26 @@ class ActivationNormalization(Layer):
 
 
 class AffineCoupling(Layer):
-    def __init__(self, D, NN, volume_preservation=True):
+    
+    """ **AffineCoupling** implements affine coupling, a typical flow-based generative models layer. It was introduced in the RealNVP architecture. 
+    
+        Parameters
+        ----------
+            * D: dimension of the input
+            * NN: neural networks used in the layer
+            
+    """
+    
+    def __init__(self, D, NN):
         super(AffineCoupling, self).__init__()
         self.NN = NN
         self.D = D
-        self.volume_preservation = volume_preservation
         
     def to_embedding(self, x, previous_loss):
         z1, z2 = torch.chunk(x, 2, dim=1)
         h = self.NN(z1)
         t = h[:, :self.D//2]
         s = torch.sigmoid(h[:, self.D//2:])
-        
-        if self.volume_preservation:
-            s = s.pow(1 / (torch.sum(torch.log(s), dim=1, keepdim=True) + 1e-5))
         z2_ = z2 * s + t
         previous_loss += torch.sum(torch.log(s), dim=1)
         return torch.cat([z1, z2_], dim=1), previous_loss
@@ -146,16 +167,20 @@ class AffineCoupling(Layer):
         h = self.NN(z1)
         t = h[:, :self.D//2]
         s = torch.sigmoid(h[:, self.D//2:])
-        
-        if self.volume_preservation:
-            s = s.pow(1 / (torch.sum(torch.log(s), dim=1, keepdim=True) + 1e-5))
-            
         z2_ = (z2 - t) / s
         previous_loss -= torch.sum(torch.log(s), dim=1)
         return torch.cat([z1, z2_], dim=1), previous_loss
 
 
 class Linear(Layer):
+    
+    """ **Linear** implements a full-rank linear Layer. It was introduced in the GLOW architecture. 
+    
+        Parameters
+        ----------
+            * D: dimension of the input
+    """
+    
     def __init__(self, D):
         super(Linear, self).__init__()
         self.D = D
@@ -180,6 +205,15 @@ class Linear(Layer):
 
 
 class Prior(Layer):
+    
+    """ **Prior** is the prior used for the latent space. Here, N(mean, var).  
+    
+        Parameters
+        ----------
+            * mean: mean of the latent distribution
+            * logvar: log-variance of the latent distribution
+    """
+    
     def __init__(self, mean, logvar):
         super(Prior, self).__init__()
         self.mean = mean
@@ -197,6 +231,15 @@ class Prior(Layer):
 
 
 class Shuffle(Layer):
+    
+    """ **Shuffle** shuffles the dimensions on the layers output. 
+    
+        Parameters
+        ----------
+            * D: dimension of the input
+    """
+    
+    
     def __init__(self, D):
         super(Shuffle, self).__init__()
         self.shuffled = False
@@ -230,6 +273,15 @@ class Shuffle(Layer):
 
         
 class Lag(Layer):
+    
+    """ **Lag** implements a lag layer for the output of the slow-flow.
+    
+        Parameters
+        ----------
+            * D: dimension of the input
+            * lag: size of the lag
+    """
+    
     def __init__(self, D, lag=1):
         super(Lag, self).__init__()
         self.lag = lag
@@ -246,6 +298,15 @@ class Lag(Layer):
 
 
 class FlowLayer(LayerList):
+    
+    """ **FlowLayer** is the class to instantiate a layer of the flow-based model.
+    
+        Parameters
+        ----------
+            * D: dimension of the input
+            * NN: neural networks used in the **AffineCoupling**
+    """
+    
     def __init__(self, D, NN):
         super(FlowLayer, self).__init__()
         self.D = D
@@ -256,6 +317,16 @@ class FlowLayer(LayerList):
 
 
 class FlowModel(LayerList, nn.Module):
+    
+    """ **FlowModel** is the class to instantiate a the flow-based model.
+    
+        Parameters
+        ----------
+            * D: dimension of the input
+            * NN: neural networks used in the **AffineCoupling**
+            * depth: depth of the flow-based model (number of FlowLayers)
+    """
+    
     def __init__(self, D, NN, depth=1):
         super(FlowModel, self).__init__()
         self.D = D
@@ -270,5 +341,4 @@ class FlowModel(LayerList, nn.Module):
             layers.append(FlowLayer(D, NN()))
         
         layers.append(Linear(D))
-        # layers.append(Prior(Variable(torch.zeros(1, D)), Variable(torch.zeros(1, D))))
         self.layers = nn.ModuleList(layers)
