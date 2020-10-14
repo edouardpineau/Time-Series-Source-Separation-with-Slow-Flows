@@ -1,8 +1,7 @@
 Time-Series-Source-Separation-with-Slow-Flows
 ---------------------------------------------
-
-Abstract
---------
+In this paper, we show that slow feature analysis (SFA), a common time series decomposition method, naturally fits into the flow-based models (FBM) framework, a type of invertible neural latent variable models. Building upon recent advances on blind source separation, we show that such a fit makes the time series decomposition
+identifiable.
 
 Citing
 ------
