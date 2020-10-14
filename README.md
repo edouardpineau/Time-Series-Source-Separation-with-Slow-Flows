@@ -9,7 +9,7 @@ identifiable.
 
 ### Dependencies
 
-The current version of the code uses the module [SOBI.py](https://github.com/edouardpineau/Time-Series-ICA/SOBI.py) that I will package soon. 
+The current version of the code uses the module [SOBI.py](https://github.com/edouardpineau/Time-Series-ICA/blob/master/SOBI.py) that I will package soon. 
 
 ### Citing
 
