@@ -40,6 +40,9 @@ class LayerList(Layer, nn.Module):
         -------
             * to_embedding: from data to latent representation through chain of layers
             * from_embedding: from latent representation to data though chain of inverse layers
+                
+                Both methods output the previous layer output and loss. Each previous_loss is the sum of the current
+                layer loss and the previous layers loss.
     """
     
     def __init__(self, list_of_layers=None):
@@ -335,5 +338,5 @@ class FlowModel(LayerList, nn.Module):
             layers.append(ActivationNormalization(D))
             layers.append(AffineCoupling(D, NN()))
         
-        layers.append(Prior(Variable(torch.zeros(1, D)), Variable(torch.zeros(1, D))))
+        layers.append(Prior(torch.zeros(1, D), torch.zeros(1, D)))
         self.layers = nn.ModuleList(layers)
