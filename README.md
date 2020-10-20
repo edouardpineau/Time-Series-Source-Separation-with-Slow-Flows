@@ -1,3 +1,5 @@
+ATTENTION: notebook to be updated
+
 # Time Series Source Separation with Slow Flows
 
 The current repository offers an implementation of the paper [Time Series Source Separation with Slow Flows](https://arxiv.org/pdf/2007.10182.pdf) presented as a contribution at the [second ICML Workshop on Invertible Neural Networks, Normalizing Flows, and Explicit Likelihood Models (2020)](https://invertibleworkshop.github.io/). 
