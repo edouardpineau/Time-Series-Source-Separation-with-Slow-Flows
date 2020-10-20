@@ -206,10 +206,10 @@ class SlowFlows:
                 
         self.sf_is_fitted_ = True
         
-        x = X.reshape(-1, X.size(-1))
+        x = X.reshape(-1, X.size(-1)).to(self.device)
         previous_loss = torch.zeros(x.size(0)).to(self.device)
         z, logprob = self.flowModel.to_embedding(x, previous_loss)
-        self.final_ica.fit(z.detach().numpy())
+        self.final_ica.fit(z.cpu().detach().numpy())
         
         self.ica_is_fitted_ = True
         
@@ -225,6 +225,8 @@ class SlowFlows:
 
         """
         
+        X = X.to(self.device)
+        
         if self.sf_is_fitted_:
             x = X.reshape(-1, X.size(-1))
             previous_loss = torch.zeros(x.size(0)).to(self.device)
@@ -233,9 +235,10 @@ class SlowFlows:
             raise print('Fit before transforming.')
         
         if self.ica_is_fitted_:
-            return self.final_ica.transform(z.detach().numpy())
+            return self.final_ica.transform(z.cpu().detach().numpy())
         else:
-            return self.final_ica.fit_transform(z.detach().numpy())
+            self.ica_is_fitted_ = True
+            return self.final_ica.fit_transform(z.cpu().detach().numpy())
     
     def fit_transform(self, X, batch_size=None, lr=1e-3, num_epochs=1500, verbose=True):
         
@@ -251,6 +254,8 @@ class SlowFlows:
             * Estimated sources
 
         """
+        
+        X = X.to(self.device)
         
         self.fit(X, batch_size, lr, num_epochs, verbose)
         return self.transform(X)
