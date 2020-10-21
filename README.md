@@ -29,6 +29,7 @@ In [6] they redefine slowness in term of maximum-likelihood, i.e.
 
 <p align="center">
   <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/eq_ML_slowness_2.png" width="350">
+  
   <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/eq_ML_slowness.png" width="320">
 </p>
 
