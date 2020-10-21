@@ -9,9 +9,15 @@ The current repository offers an implementation of the paper [Time Series Source
 In this paper, we show that slow feature analysis (SFA), a common time series decomposition method, naturally fits into the flow-based models (FBM) framework, a type of invertible neural latent variable models. Building upon recent advances on blind source separation, we show that such a fit makes the time series decomposition
 identifiable.
 
-### Dependencies
+### Introduction
 
-The current version of the code uses the module [SOBI.py](https://github.com/edouardpineau/Time-Series-ICA/blob/master/SOBI.py). It is a linear ICA specialized for sequence decomposition. I will package it soon; for now, it is duplicated in the current repository.
+Decomposing data into independent components sometimes is not enough to find relevant information: we need to find the *source factors* from which data have been generated. We not X the data, S the factors and f(S)=X the *unknown* mixing. While in the linear case (f=A), independent component analysis (ICA) identifies the *true sources* (up to scaling and rotation) [1], the non-linear case has a major issue: there exists an infinite number of solutions. Recent works have proposed new proofs of identifiability in the non-linear case under three main assumptions: universal approximation function to estimate f, infinite data and access to additional information about the data from which we can extract a relevant *inductive bias*. In particular, they use the recent advances in data representation learning with neural networks (universal approximation functions that scale on large datasets). 
+
+In this paper, we couple a known time series representation inductive bias called *slowness* to the recent neural network based non-linear identifiable ICA. 
+
+### Slowness
+
+$`\Delta`$
 
 ### Citing
 
