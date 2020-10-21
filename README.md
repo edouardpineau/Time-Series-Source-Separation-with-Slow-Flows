@@ -17,8 +17,7 @@ In this paper, we couple a known time series representation inductive bias calle
 
 ### Slowness
 
-<img src="https://latex.codecogs.com/gif.latex?\Delta " /> 
--
+<img src="https://latex.codecogs.com/gif.latex?\min_{f:X=f(Z)} \sum_{i=1}^d \langle \Delta {Z^{(i)}}^2 \rangle \text{ s.t. } \langle Z \rangle = 0, ZZ^T=I " /> 
 
 ### Citing
 
