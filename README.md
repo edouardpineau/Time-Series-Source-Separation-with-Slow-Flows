@@ -17,7 +17,8 @@ In this paper, we couple a known time series representation inductive bias calle
 
 ### Slowness
 
-$$\Delta$$
+<img src="https://latex.codecogs.com/gif.latex?\Delta " /> 
+-
 
 ### Citing
 
