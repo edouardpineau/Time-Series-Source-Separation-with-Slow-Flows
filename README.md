@@ -19,8 +19,7 @@ In this paper, we couple a known time series representation inductive bias calle
 
 *Slowness* is a common temporal structure used in time series decomposition. It represents the fact that two consecutive time-steps in a time series have close values. It is a common assumption that relevant factors underlying data are slower than their mixing [2]. If we note **Z=f<img src="https://latex.codecogs.com/gif.latex?_\theta  " />(X)** the estimated factors using neural network **f<img src="https://latex.codecogs.com/gif.latex?_\theta  " />**
 
-<img src="https://github.com/edouardpineau/
-Time-Series-Source-Separation-with-Slow-Flows/raw/master/images/eq_slowness.PNG" width="500">
+<img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/tree/main/images/eq_slowness.PNG" width="500">
 
 ### Citing
 
