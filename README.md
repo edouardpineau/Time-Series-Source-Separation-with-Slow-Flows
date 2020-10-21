@@ -28,8 +28,8 @@ with <img src="https://latex.codecogs.com/gif.latex?\Delta  " /> the temporal di
 In [6] they redefine slowness in term of maximum-likelihood, i.e.
 
 <p align="center">
-  <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/eq_ML_slowness.png" width="350">
   <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/eq_ML_slowness_2.png" width="350">
+  <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/eq_ML_slowness.png" width="320">
 </p>
 
 Finally, we use recent ICA methods that use invertible neural networks trained by maximum-likelihood [7, 8] to decompose data. They are called *flow-based models* (FBMs). 
@@ -40,6 +40,10 @@ Our paper combines these concepts: introducing slowness into FBMs (*slow-FBMs*) 
 
 <p align="center">
   <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/slowness_sound.png" width="350">
+</p>
+
+
+<p align="center">
   <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/slowness_sound_table.png" width="350">
 </p>
 
@@ -47,6 +51,9 @@ Our paper combines these concepts: introducing slowness into FBMs (*slow-FBMs*) 
 
 <p align="center">
   <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/slowness_structural.png" width="350">
+</p>
+
+<p align="center">
   <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/slowness_structural_table.png" width="350">
 </p>
 
