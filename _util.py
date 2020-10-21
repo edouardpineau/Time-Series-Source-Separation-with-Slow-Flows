@@ -2,6 +2,89 @@ import numpy as np
 import pandas as pd
 import itertools
 
+
+def to_dataframe(array):
+    """ Transform array to pandas.DataFrame()
+
+    Parameters
+    ----------
+    array : ndarray, Iterable, dict
+        array to transform to DataFrame
+
+    Returns
+    -------
+    pandas.DataFrame
+        Transformed DataFrame
+    """
+    if not isinstance(array, pd.DataFrame):
+        return pd.DataFrame(array)
+    else:
+        return array
+
+
+def to_series(array):
+    """ Transform array to pandas.Series()
+
+    Parameters
+    ----------
+    array : array-like, Iterable, dict, or scalar value
+        array to transform to Series
+
+    Returns
+    -------
+    pandas.Series
+        Transformed Series
+    """
+    if not isinstance(array, pd.Series):
+        return pd.Series(array)
+    else:
+        return array
+
+
+def get_triu(df, return_1d=True):
+    """ Upper triangle of an array excluding diagonal values.
+
+    Examples
+    --------
+    >>> df = pd.DataFrame([[1, 2, 3,], [4, 5, 6], [7, 8, 9]])
+    >>> get_triu(df)
+
+    |        |   0 |
+    |:-------|----:|
+    | (0, 1) |   2 |
+    | (0, 2) |   3 |
+    | (1, 2) |   6 |
+
+    >>> get_triu(df, return_1d=False)
+
+    |    |   0 |   1 |   2 |
+    |---:|----:|----:|----:|
+    |  0 | nan |   2 |   3 |
+    |  1 | nan | nan |   6 |
+    |  2 | nan | nan | nan |
+
+    Parameters
+    ----------
+    df : pandas.DataFrame()
+        Target 2d data
+    return_1d : bool, optional
+        Whether to squeeze to 1d, by default True
+
+    Returns
+    -------
+    pandas.Series or pandas.DataFrame
+        Upper triangle values excluding diagonal
+    """
+    mask = np.tril(np.ones(df.shape))
+    mask = mask.astype(bool)
+    df = df.mask(mask)
+
+    if return_1d:
+        return df.stack()
+    else:
+        return df
+
+
 def center(X, mean=None):
     
     """
