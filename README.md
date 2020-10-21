@@ -11,13 +11,15 @@ identifiable.
 
 ### Introduction
 
-Decomposing data into independent components sometimes is not enough to find relevant information: we need to find the *source factors* from which data have been generated. We not X the data, S the factors and f(S)=X the *unknown* mixing. While in the linear case (f=A), independent component analysis (ICA) identifies the *true sources* (up to scaling and rotation) [1], the non-linear case has a major issue: there exists an infinite number of solutions. Recent works have proposed new proofs of identifiability in the non-linear case under three main assumptions: universal approximation function to estimate f, infinite data and access to additional information about the data from which we can extract a relevant *inductive bias*. In particular, they use the recent advances in data representation learning with neural networks (universal approximation functions that scale on large datasets). 
+Decomposing data into independent components sometimes is not enough to find relevant information: we need to find the *source factors* from which data have been generated. We not **X** the data, **S** the factors and **f(S)=X** the *unknown* mixing. While in the linear case (**f=A**), independent component analysis (ICA) identifies the *true sources* (up to scaling and rotation) [1], the non-linear case has a major issue: there exists an infinite number of solutions. Recent works have proposed new proofs of identifiability in the non-linear case under three main assumptions: universal approximation function to estimate f, infinite data and access to additional information about the data from which we can extract a relevant *inductive bias*. In particular, they use the recent advances in data representation learning with neural networks (universal approximation functions that scale on large datasets). 
 
 In this paper, we couple a known time series representation inductive bias called *slowness* to the recent neural network based non-linear identifiable ICA. 
 
 ### Slowness
 
+*Slowness* is a common temporal structure used in time series decomposition. It represents the fact that two consecutive time-steps in a time series have close values. It is a common assumption that relevant factors underlying data are slower than their mixing [2]. If we note **Z=<img src="https://latex.codecogs.com/gif.latex?f_\theta  " />(X)** the estimated factors using neural network <img src="https://latex.codecogs.com/gif.latex?f_\theta  " />
 
+<img src="https://github.com/edouardpineau/infoCatVAE/raw/master/images/CatVAE_architecture.png" width="1000">
 
 ### Citing
 
