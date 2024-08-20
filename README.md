@@ -60,9 +60,9 @@ Our paper combines these concepts: introducing slowness into FBMs (*slow-FBMs*) 
 
 ### Citing
 
-    @inproceedings{pineau2020time,
-                   title={Time Series Source Separation with Slow Flows},
-                   author={Pineau, Edouard and Razakarivony, S{\'e}bastien and Bonald, Thomas},
-                   booktitle={ICML Workshop on Invertible Neural Networks, Normalizing Flows, and Explicit Likelihood Models},
-                   year={2020}
+    @article{pineau2020time,
+      title={Time series source separation with slow flows},
+      author={Pineau, Edouard and Razakarivony, S{\'e}bastien and Bonald, Thomas},
+      journal={arXiv preprint arXiv:2007.10182},
+      year={2020}
     }
