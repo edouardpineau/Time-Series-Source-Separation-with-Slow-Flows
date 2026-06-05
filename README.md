@@ -23,11 +23,7 @@ In this paper, we couple a known time series representation inductive bias calle
 
 with <img src="https://latex.codecogs.com/gif.latex?\Delta  " /> the temporal differenciation operator. 
 
-In [6] they redefine slowness in term of maximum-likelihood, i.e.
-
-<p align="center">
-  <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/eq_ML_slowness_2.png" width="250">
-</p>
+In [6] they redefine slowness in term of maximum-likelihood using assumption
 
 <p align="center">
     <img src="https://github.com/edouardpineau/Time-Series-Source-Separation-with-Slow-Flows/blob/main/images/eq_ML_slowness.png" width="220">
